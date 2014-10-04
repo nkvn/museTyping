@@ -53,7 +53,6 @@ public class CustomInputMethod extends InputMethodService {
         mCurrentChar = 0;
         updateTextView(intToString(mCurrentChar));
         final int timerDelay = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("cycle_delay", "1000"));
-//        new ConnectTask(timerDelay).execute();
         mReceiver = new MuseIOReceiver(PORT, UDP);
         mReceiver.registerMuseDataListener(mDataListener);
         try {
