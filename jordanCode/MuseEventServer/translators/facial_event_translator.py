@@ -36,8 +36,7 @@ class FacialEventTranslator(EventTranslator):
         super(FacialEventTranslator, self).subscribe(key)
 
     def receive(self, key, payload):
-        value = payload
-
+        value = payload.payload
         if key == 'OSC_touching_forehead':
             if value == 1:
                 self.touching_forehead = True
@@ -65,12 +64,11 @@ class FacialEventTranslator(EventTranslator):
 
     def clenchEndEvent(self, event_time):
         clench_time = abs( event_time - self.clench_start_time )
-        print("EVENT: Clench for " + str(clench_time) + " seconds")
         self.publish('clench_end', clench_time)
         if clench_time > 1:
             rounded_int = int(round(clench_time * self.seek_multiplyer))
             self.publish('long_clench_rounded_int', rounded_int)
-
+            print("EVENT: Clench for " + str(clench_time) + " seconds")
         if self.last_clench_time and self.last_clench_time < 1 and clench_time < 1:
             self.publish('quick_clench_two_row', clench_time)
             self.last_clench_time = False
@@ -99,7 +97,7 @@ class FacialEventTranslator(EventTranslator):
         print("EVENT: Blink detected!")
 
     def blinkPeriodEnd(self):
-        self.publish('blink_period_end')
+        self.publish('blink_period_end', None)
         if self.num_of_blinks_in_row > 1:
             self.blinksInARowEvent(self.num_of_blinks_in_row)
         self.num_of_blinks_in_row = 0

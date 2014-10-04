@@ -26,7 +26,7 @@ class OSCEventPublisher(EventPublisher):
 
     def callback(self, path, args, types, src):
         for t, a in zip(types, args):
-            self.provider.notify(path_alias(path), OSCEvent(t, a, path))
+            self.provider.notify(self.path_alias(path), self.OSCEvent(t, a, path))
 
     def __init__(self, msg_center, port = 5001):
         super(OSCEventPublisher, self).__init__(msg_center)

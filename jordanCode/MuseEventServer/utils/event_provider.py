@@ -12,7 +12,7 @@ class EventProvider:
         self.subcribers = {}
 
     def notify(self, key, payload):
-        msg = Msg(key, payload)
+        msg = self.Msg(key, payload)
         self.msg_queue.append(msg)
 
     def subscribe(self, key, subcriber):
