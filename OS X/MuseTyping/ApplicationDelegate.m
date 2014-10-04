@@ -72,6 +72,17 @@ void *kContextActivePanel = &kContextActivePanel;
 - (void)loopAlphabet {
     self.menubarController.statusItemView.alternateImage = [NSImage imageNamed:[NSString stringWithFormat:@"%lu", (unsigned long)self.letter]];
     self.letter = (self.letter + 1) % 26;
+    
+    
+    int pid = [[NSProcessInfo processInfo] processIdentifier];
+    NSPipe *pipe = [NSPipe pipe];
+    
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/usr/bin/automator";
+    task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
+    task.standardOutput = pipe;
+    
+    [task launch];
 }
 
 #pragma mark - PanelControllerDelegate
