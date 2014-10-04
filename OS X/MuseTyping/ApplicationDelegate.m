@@ -2,7 +2,7 @@
 
 @interface ApplicationDelegate ()
 @property (nonatomic, strong) NSMutableArray *alphabet;
-@property (nonatomic) NSUInteger letter;
+@property (nonatomic) NSInteger letter;
 @property (nonatomic) BOOL typing;
 @property (nonatomic, strong) NSTimer *timer;
 @end
@@ -55,7 +55,7 @@ void *kContextActivePanel = &kContextActivePanel;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/usr/bin/automator";
 #warning This file path is hard coded
-            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)(self.letter - 2) % 26]];
+            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (signed long)(self.letter - 2) % 26]];
             task.standardOutput = pipe;
             
             [task launch];
