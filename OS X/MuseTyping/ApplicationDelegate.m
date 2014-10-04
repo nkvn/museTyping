@@ -1,4 +1,5 @@
 #import "ApplicationDelegate.h"
+#import "FileSystemWatch.h"
 
 @interface ApplicationDelegate ()
 @property (nonatomic, strong) NSMutableArray *alphabet;
@@ -38,6 +39,25 @@ void *kContextActivePanel = &kContextActivePanel;
         [self.alphabet addObject:[NSString stringWithFormat:@"%c", a]];
     }
     self.menubarController.statusItemView.action = @selector(togglePanel:);
+    
+    FileSystemWatch* watcher = [[FileSystemWatch alloc] init];
+    [watcher watchFileAtPath:@"path/to/config.plist" target:self action:@selector(fileChanged:)];
+}
+
+- (void)fileChanged:(FileSystemWatch*)watcher
+{
+    if (self.typing) {
+        int pid = [[NSProcessInfo processInfo] processIdentifier];
+        NSPipe *pipe = [NSPipe pipe];
+        
+        NSTask *task = [[NSTask alloc] init];
+        task.launchPath = @"/usr/bin/automator";
+#warning This file path is hard coded
+        task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
+        task.standardOutput = pipe;
+        
+        [task launch];
+    }
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -72,18 +92,6 @@ void *kContextActivePanel = &kContextActivePanel;
 - (void)loopAlphabet {
     self.menubarController.statusItemView.alternateImage = [NSImage imageNamed:[NSString stringWithFormat:@"%lu", (unsigned long)self.letter]];
     self.letter = (self.letter + 1) % 26;
-    
-    
-    int pid = [[NSProcessInfo processInfo] processIdentifier];
-    NSPipe *pipe = [NSPipe pipe];
-    
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/usr/bin/automator";
-#warning This file path is hard coded
-    task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
-    task.standardOutput = pipe;
-    
-    [task launch];
 }
 
 #pragma mark - PanelControllerDelegate
