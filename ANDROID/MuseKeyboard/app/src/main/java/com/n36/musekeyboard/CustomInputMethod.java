@@ -20,6 +20,8 @@ public class CustomInputMethod extends InputMethodService {
     private static final int PORT = 5000;
     private static final boolean UDP = true;
 
+    private static final int MAX_CHARS = 27;
+
     private MuseIOReceiver mReceiver;
 
     private MuseIOReceiver.MuseDataListener mDataListener = new MuseListenerAdapter() {
@@ -31,7 +33,7 @@ public class CustomInputMethod extends InputMethodService {
             final int blink = i[0];
             if (blink == 1 && mPrevBlink != 1) { // Filter out counting multiple blinks instead of one
                 if (System.currentTimeMillis() - mLastChangeTime < 200) {
-                    onInput(intToString((mCurrentChar + 25) % 26));
+                    onInput(intToString((mCurrentChar + MAX_CHARS - 1) % MAX_CHARS));
                 } else {
                     onInput(intToString(mCurrentChar));
                 }
@@ -44,11 +46,6 @@ public class CustomInputMethod extends InputMethodService {
     private int mCurrentChar = 0;
     private Timer mTimer;
     private long mLastChangeTime;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-    }
 
     @Override
     public void onWindowShown() {
@@ -65,7 +62,7 @@ public class CustomInputMethod extends InputMethodService {
             mTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mCurrentChar = (mCurrentChar + 1) % 26;
+                    mCurrentChar = (mCurrentChar + 1) % MAX_CHARS;
                     if (mTextView != null) {
                         mTextView.post(new Runnable() {
                             @Override
@@ -86,7 +83,11 @@ public class CustomInputMethod extends InputMethodService {
     }
 
     private String intToString(int i) {
-        return String.valueOf((char) (i + 'A'));
+        if (i >= MAX_CHARS - 1) {
+            return " ";
+        } else {
+            return String.valueOf((char) (i + 'A'));
+        }
     }
 
     private void updateTextView(final String s) {
