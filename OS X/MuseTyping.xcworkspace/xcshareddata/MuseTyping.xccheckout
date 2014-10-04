@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2FF90ACA-62D8-4FE4-9BA1-CFB45F70E2D2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MuseTyping</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</key>
+		<string>https://github.com/nkvn/museTyping.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>OS X/MuseTyping.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/nkvn/museTyping.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</string>
+			<key>IDESourceControlWCCName</key>
+			<string>museTyping</string>
+		</dict>
+	</array>
+</dict>
+</plist>

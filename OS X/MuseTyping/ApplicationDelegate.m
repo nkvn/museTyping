@@ -1,16 +1,15 @@
 #import "ApplicationDelegate.h"
 
+@interface ApplicationDelegate ()
+@property (nonatomic, strong) NSMutableArray *alphabet;
+@property (nonatomic) NSUInteger letter;
+@property (nonatomic) BOOL typing;
+@property (nonatomic, strong) NSTimer *timer;
+@end
+
 @implementation ApplicationDelegate
 
-@synthesize panelController = _panelController;
 @synthesize menubarController = _menubarController;
-
-#pragma mark -
-
-- (void)dealloc
-{
-    [_panelController removeObserver:self forKeyPath:@"hasActivePanel"];
-}
 
 #pragma mark -
 
@@ -19,7 +18,6 @@ void *kContextActivePanel = &kContextActivePanel;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if (context == kContextActivePanel) {
-        self.menubarController.hasActiveIcon = self.panelController.hasActivePanel;
     }
     else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
@@ -32,6 +30,14 @@ void *kContextActivePanel = &kContextActivePanel;
 {
     // Install icon into the menu bar
     self.menubarController = [[MenubarController alloc] init];
+    self.typing = NO;
+    
+    self.alphabet = [[NSMutableArray alloc] init];
+    for (char a = 'a'; a <= 'z'; a++)
+    {
+        [self.alphabet addObject:[NSString stringWithFormat:@"%c", a]];
+    }
+    self.menubarController.statusItemView.action = @selector(togglePanel:);
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
@@ -46,18 +52,26 @@ void *kContextActivePanel = &kContextActivePanel;
 - (IBAction)togglePanel:(id)sender
 {
     self.menubarController.hasActiveIcon = !self.menubarController.hasActiveIcon;
-    self.panelController.hasActivePanel = self.menubarController.hasActiveIcon;
+    self.typing = !self.typing;
+    [self.menubarController.statusItem setTitle:nil];
+    self.menubarController.statusItemView.image = self.typing ? nil : [NSImage imageNamed:@"Status"];
+    self.menubarController.statusItemView.alternateImage = self.typing ? nil : [NSImage imageNamed:@"StatusHighlighted"];
+    if (self.typing) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      target:self
+                                                    selector:@selector(loopAlphabet)
+                                                    userInfo:nil
+                                                     repeats:YES];
+    }
+    else {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
 }
 
-#pragma mark - Public accessors
-
-- (PanelController *)panelController
-{
-    if (_panelController == nil) {
-        _panelController = [[PanelController alloc] initWithDelegate:self];
-        [_panelController addObserver:self forKeyPath:@"hasActivePanel" options:0 context:kContextActivePanel];
-    }
-    return _panelController;
+- (void)loopAlphabet {
+    self.menubarController.statusItemView.alternateImage = [NSImage imageNamed:[NSString stringWithFormat:@"%lu", (unsigned long)self.letter]];
+    self.letter = (self.letter + 1) % 26;
 }
 
 #pragma mark - PanelControllerDelegate
