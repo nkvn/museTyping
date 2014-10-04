@@ -359,8 +359,7 @@
 				DD4F7C1E13C30F9F00825C6E /* en */,
 			);
 			name = MainMenu.xib;
-			path = "/Users/aldrinbalisi/Downloads/Popup-master/MuseTyping";
-			sourceTree = "<absolute>";
+			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
 

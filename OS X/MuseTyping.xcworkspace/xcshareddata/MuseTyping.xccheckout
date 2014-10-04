@@ -12,6 +12,8 @@
 	<dict>
 		<key>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</key>
 		<string>https://github.com/nkvn/museTyping.git</string>
+		<key>BF96B37214E05BA7B568CB8887A31F3968D54F99</key>
+		<string>https://bitbucket.org/interaxon/museioreceiverios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>OS X/MuseTyping.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</key>
 		<string>../..</string>
+		<key>BF96B37214E05BA7B568CB8887A31F3968D54F99</key>
+		<string>../../../../../Desktop/museioreceiverios</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/nkvn/museTyping.git</string>
@@ -28,6 +32,14 @@
 	<string>8B565EA6D9B4D7129375A389B115E3F4D6E99C52</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BF96B37214E05BA7B568CB8887A31F3968D54F99</string>
+			<key>IDESourceControlWCCName</key>
+			<string>museioreceiverios</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
