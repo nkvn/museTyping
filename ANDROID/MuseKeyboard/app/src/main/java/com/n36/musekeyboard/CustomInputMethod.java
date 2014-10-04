@@ -1,13 +1,11 @@
 package com.n36.musekeyboard;
 
-import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
+import android.os.AsyncTask;
 import android.os.Looper;
 import android.preference.PreferenceManager;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.TextView;
 
@@ -21,21 +19,23 @@ import java.util.TimerTask;
 public class CustomInputMethod extends InputMethodService {
 
     private static final int PORT = 5000;
-    private static final boolean UDP = false;
+    private static final boolean UDP = true;
 
     private MuseIOReceiver mReceiver;
 
     private MuseIOReceiver.MuseDataListener mDataListener = new MuseListenerAdapter() {
 
-        @Override
-        public void receiveMuseAccel(MuseIOReceiver.MuseConfig config, float[] accel) {
-            Log.d("MUSE_TAG", String.format("Accel: %s %s %s", accel[0], accel[1], accel[2]));
-        }
+        int mPrevBlink;
 
         @Override
         public void receiveBlink(MuseIOReceiver.MuseConfig config, int[] i) {
-            onInput(intToString(mCurrentChar));
+            final int blink = i[0];
+            if (blink == 1 && mPrevBlink != 1) {
+                onInput(intToString((mCurrentChar + 25) % 26));
+            }
+            mPrevBlink = blink;
         }
+
     };
 
     private TextView mTextView;
@@ -45,24 +45,24 @@ public class CustomInputMethod extends InputMethodService {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mReceiver = new MuseIOReceiver(PORT, UDP);
-        mReceiver.registerMuseDataListener(mDataListener);
     }
 
     @Override
     public void onWindowShown() {
         super.onWindowShown();
+        mCurrentChar = 0;
+        updateTextView(intToString(mCurrentChar));
+        final int timerDelay = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("cycle_delay", "1000"));
+//        new ConnectTask(timerDelay).execute();
+        mReceiver = new MuseIOReceiver(PORT, UDP);
+        mReceiver.registerMuseDataListener(mDataListener);
         try {
             mReceiver.connect();
-            mCurrentChar = 0;
-            updateTextView(intToString(mCurrentChar));
-            final int timerDelay = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString("cycle_delay", "1000"));
             mTimer = new Timer(true);
             mTimer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    mCurrentChar = (mCurrentChar+1) % 26;
+                    mCurrentChar = (mCurrentChar + 1) % 26;
                     if (mTextView != null) {
                         mTextView.post(new Runnable() {
                             @Override
@@ -73,11 +73,11 @@ public class CustomInputMethod extends InputMethodService {
                     }
                 }
             }, timerDelay, timerDelay);
-            Log.d("MUSE_TAG", "CONNECTED");
+            Log.d("MUSE_TAG", "asd");
         } catch (IOException e) {
+            updateTextView("Error");
+            Log.d("MUSE_TAG", "asd2");
             e.printStackTrace();
-            Log.d("MUSE_TAG", "FAILED: " + e.getMessage());
-            updateTextView("Failed to\nConnect");
         }
     }
 
@@ -112,7 +112,6 @@ public class CustomInputMethod extends InputMethodService {
             mTimer.cancel();
             mTimer.purge();
         }
-        Log.d("MUSE_TAG", "DISCONNECTED");
     }
 
     public void onInput(String input) {
@@ -126,13 +125,7 @@ public class CustomInputMethod extends InputMethodService {
 
         mTextView = (TextView) view.findViewById(R.id.text);
 
-        view.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onInput(intToString(mCurrentChar));
-            }
-        });
-
         return view;
     }
+
 }
