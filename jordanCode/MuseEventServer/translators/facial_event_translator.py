@@ -94,6 +94,8 @@ class FacialEventTranslator(EventTranslator):
                 self.blinksInARowEvent(self.num_of_blinks_in_row)
             self.num_of_blinks_in_row = 0
             self.first_blink = None
+        with open("test", "a") as f:
+            f.write("Blink detected!\n")
         print("EVENT: Blink detected!")
 
     def blinkPeriodEnd(self):
