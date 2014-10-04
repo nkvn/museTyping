@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">MuseKeyboard</string>
+
+    <string name="input_label">Muse Keyboard</string>
+    <string name="input_settings">asdasd settings</string>
+
+    <string name="subtype_label">Blink</string>
+</resources>
