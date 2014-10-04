@@ -4,27 +4,19 @@
     android:layout_height="wrap_content"
     android:background="@color/keyboard_background">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/keyboard_height"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Input" />
+        android:layout_height="@dimen/keyboard_height">
 
         <TextView
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_centerInParent="true"
             android:textColor="#ffffff"
-            android:textSize="30dp" />
+            android:textSize="40dp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
