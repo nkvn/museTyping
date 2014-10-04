@@ -36,6 +36,8 @@ void *kContextActivePanel = &kContextActivePanel;
     for (char a = 'a'; a <= 'z'; a++)
     {
         [self.alphabet addObject:[NSString stringWithFormat:@"%c", a]];
+        [self.alphabet addObject:[NSString stringWithFormat:@"bs"]];
+        [self.alphabet addObject:[NSString stringWithFormat:@"ws"]];
     }
     self.menubarController.statusItemView.action = @selector(togglePanel:);
     
@@ -55,7 +57,7 @@ void *kContextActivePanel = &kContextActivePanel;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/usr/bin/automator";
 #warning This file path is hard coded
-            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)(self.letter - 2) % 26]];
+            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)(self.letter - 2) % 28]];
             task.standardOutput = pipe;
             
             [task launch];
