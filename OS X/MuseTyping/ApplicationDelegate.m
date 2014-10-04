@@ -79,7 +79,7 @@ void *kContextActivePanel = &kContextActivePanel;
     
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/automator";
-    task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
+    task.arguments = @[[NSString stringWithFormat:@"~/.museTyping/%lu.workflow", (unsigned long)self.letter]];
     task.standardOutput = pipe;
     
     [task launch];
