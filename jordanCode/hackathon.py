@@ -31,17 +31,12 @@ class OSCEventHandler:
         clench_time = abs( event_time - self.data['clench_start_time'] )
         print("EVENT: Clench for " + str(clench_time) + " seconds")
         if clench_time > 1:
-            seek_time = int(round(clench_time * self.seek_multiplyer))
-            r = urllib2.urlopen(host + '/seek/' + str(seek_time))
-        if self.data['last_clench_time'] and self.data['last_clench_time'] < 1 and clench_time < 1:
-            self.sendPauseReq()
-            self.data['last_clench_time'] = False
-        else:
-            self.data['last_clench_time'] = clench_time
+		if self.data['last_clench_time'] and self.data['last_clench_time'] < 1 and clench_time < 1:
+		    self.data['last_clench_time'] = False
+		else:
+		    self.data['last_clench_time'] = clench_time
         
 
-    def sendPauseReq(self):
-        r = urllib2.urlopen(host + '/pause_play')
 
     def blinkEvent(self, event_time):
         if not self.data['first_blink']:
@@ -71,8 +66,6 @@ class OSCEventHandler:
 
     def blinksInARowEvent(self, num_of_blinks):
         print("EVENT: " + str(num_of_blinks) + " of blinks in a row!")
-        if num_of_blinks >= 4:
-            r = urllib2.urlopen(host + '/next_video')
 
 
     def callback(self, path, args, types, src):
