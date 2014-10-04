@@ -3,6 +3,7 @@ package com.n36.musekeyboard;
 import android.content.Intent;
 import android.inputmethodservice.InputMethodService;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,6 @@ public class CustomInputMethod extends InputMethodService {
 
     private static final int PORT = 5000;
     private static final boolean UDP = false;
-    private static final int TIMER_DELAY = 1000;
 
     private MuseIOReceiver mReceiver;
 
@@ -57,6 +57,7 @@ public class CustomInputMethod extends InputMethodService {
             mReceiver.connect();
             mCurrentChar = 0;
             updateTextView(intToString(mCurrentChar));
+            final int timerDelay = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this).getString("cycle_delay", "1000"));
             mTimer = new Timer(true);
             mTimer.schedule(new TimerTask() {
                 @Override
@@ -71,7 +72,7 @@ public class CustomInputMethod extends InputMethodService {
                         });
                     }
                 }
-            }, TIMER_DELAY, TIMER_DELAY);
+            }, timerDelay, timerDelay);
             Log.d("MUSE_TAG", "CONNECTED");
         } catch (IOException e) {
             e.printStackTrace();
