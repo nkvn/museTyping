@@ -33,7 +33,6 @@
 		79754B0319DFB80200F6B567 /* 23@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79754AE919DFB80200F6B567 /* 23@2x.png */; };
 		79754B0419DFB80200F6B567 /* 24@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79754AEA19DFB80200F6B567 /* 24@2x.png */; };
 		79754B0519DFB80200F6B567 /* 25@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 79754AEB19DFB80200F6B567 /* 25@2x.png */; };
-		79C005EB19DFE5AF0076B8DA /* FileSystemWatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 79C005EA19DFE5AF0076B8DA /* FileSystemWatch.m */; };
 		DD4F7C0913C30F9F00825C6E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD4F7C0813C30F9F00825C6E /* Cocoa.framework */; };
 		DD4F7C1513C30F9F00825C6E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C1413C30F9F00825C6E /* main.m */; };
 		DD4F7C1C13C30F9F00825C6E /* ApplicationDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DD4F7C1B13C30F9F00825C6E /* ApplicationDelegate.m */; };
@@ -77,8 +76,6 @@
 		79754AE919DFB80200F6B567 /* 23@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "23@2x.png"; path = "MuseTyping/Alphabet/23@2x.png"; sourceTree = "<group>"; };
 		79754AEA19DFB80200F6B567 /* 24@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "24@2x.png"; path = "MuseTyping/Alphabet/24@2x.png"; sourceTree = "<group>"; };
 		79754AEB19DFB80200F6B567 /* 25@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "25@2x.png"; path = "MuseTyping/Alphabet/25@2x.png"; sourceTree = "<group>"; };
-		79C005E919DFE5AF0076B8DA /* FileSystemWatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileSystemWatch.h; sourceTree = "<group>"; };
-		79C005EA19DFE5AF0076B8DA /* FileSystemWatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileSystemWatch.m; sourceTree = "<group>"; };
 		DD4F7C0413C30F9F00825C6E /* MuseTyping.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MuseTyping.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DD4F7C0813C30F9F00825C6E /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DD4F7C0B13C30F9F00825C6E /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -119,15 +116,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		79C005E819DFE5940076B8DA /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				79C005E919DFE5AF0076B8DA /* FileSystemWatch.h */,
-				79C005EA19DFE5AF0076B8DA /* FileSystemWatch.m */,
-			);
-			name = Helper;
-			sourceTree = "<group>";
-		};
 		DD4F7BF913C30F9F00825C6E = {
 			isa = PBXGroup;
 			children = (
@@ -161,7 +149,6 @@
 		DD4F7C0E13C30F9F00825C6E /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				79C005E819DFE5940076B8DA /* Helper */,
 				DD4F7C2613C311DF00825C6E /* Controllers */,
 				DD4F7C3913C317EC00825C6E /* Views */,
 				DD4F7C0F13C30F9F00825C6E /* Supporting Files */,
@@ -353,7 +340,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				79C005EB19DFE5AF0076B8DA /* FileSystemWatch.m in Sources */,
 				DD4F7C1513C30F9F00825C6E /* main.m in Sources */,
 				DD4F7C1C13C30F9F00825C6E /* ApplicationDelegate.m in Sources */,
 				DD4F7C3813C317A500825C6E /* MenubarController.m in Sources */,

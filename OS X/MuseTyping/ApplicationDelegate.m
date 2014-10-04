@@ -1,5 +1,4 @@
 #import "ApplicationDelegate.h"
-#import "FileSystemWatch.h"
 
 @interface ApplicationDelegate ()
 @property (nonatomic, strong) NSMutableArray *alphabet;
@@ -40,24 +39,36 @@ void *kContextActivePanel = &kContextActivePanel;
     }
     self.menubarController.statusItemView.action = @selector(togglePanel:);
     
-    FileSystemWatch* watcher = [[FileSystemWatch alloc] init];
-    [watcher watchFileAtPath:@"path/to/config.plist" target:self action:@selector(fileChanged:)];
-}
-
-- (void)fileChanged:(FileSystemWatch*)watcher
-{
-    if (self.typing) {
-        int pid = [[NSProcessInfo processInfo] processIdentifier];
-        NSPipe *pipe = [NSPipe pipe];
-        
-        NSTask *task = [[NSTask alloc] init];
-        task.launchPath = @"/usr/bin/automator";
 #warning This file path is hard coded
-        task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
-        task.standardOutput = pipe;
-        
-        [task launch];
-    }
+    int fildes = open("/path/to/config.plist", O_RDONLY);
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE,fildes,
+                                                      DISPATCH_VNODE_DELETE | DISPATCH_VNODE_WRITE | DISPATCH_VNODE_EXTEND | DISPATCH_VNODE_ATTRIB | DISPATCH_VNODE_LINK | DISPATCH_VNODE_RENAME | DISPATCH_VNODE_REVOKE,
+                                                      queue);
+    dispatch_source_set_event_handler(source, ^
+    {
+        if (_typing) {
+            int pid = [[NSProcessInfo processInfo] processIdentifier];
+            NSPipe *pipe = [NSPipe pipe];
+            
+            NSTask *task = [[NSTask alloc] init];
+            task.launchPath = @"/usr/bin/automator";
+#warning This file path is hard coded
+            task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
+            task.standardOutput = pipe;
+            
+            [task launch];
+        }
+    });
+    dispatch_source_set_cancel_handler(source, ^
+    {
+        //Handle the cancel
+    });
+    dispatch_resume(source);
+    
+    // sometime later
+    dispatch_source_cancel(source);
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
