@@ -57,7 +57,7 @@ void *kContextActivePanel = &kContextActivePanel;
     self.menubarController.statusItemView.image = self.typing ? nil : [NSImage imageNamed:@"Status"];
     self.menubarController.statusItemView.alternateImage = self.typing ? nil : [NSImage imageNamed:@"StatusHighlighted"];
     if (self.typing) {
-        self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                       target:self
                                                     selector:@selector(loopAlphabet)
                                                     userInfo:nil
@@ -79,7 +79,8 @@ void *kContextActivePanel = &kContextActivePanel;
     
     NSTask *task = [[NSTask alloc] init];
     task.launchPath = @"/usr/bin/automator";
-    task.arguments = @[[NSString stringWithFormat:@"~/.museTyping/%lu.workflow", (unsigned long)self.letter]];
+#warning This file path is hard coded
+    task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
     task.standardOutput = pipe;
     
     [task launch];

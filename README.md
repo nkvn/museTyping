@@ -12,8 +12,3 @@ muse-io --preset 14 --device "DeviceName" --dsp --osc osc.udp://localhost:5000
 ```
 python hackathon.py 5000
 ```
-
-###Before running the OSX Application, cd to project directory and run
-```
-bash install
-```
