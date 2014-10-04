@@ -1,7 +1,6 @@
 package com.n36.musekeyboard;
 
 import android.inputmethodservice.InputMethodService;
-import android.os.AsyncTask;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -25,22 +24,26 @@ public class CustomInputMethod extends InputMethodService {
 
     private MuseIOReceiver.MuseDataListener mDataListener = new MuseListenerAdapter() {
 
-        int mPrevBlink;
+        int mPrevBlink = 0;
 
         @Override
         public void receiveBlink(MuseIOReceiver.MuseConfig config, int[] i) {
             final int blink = i[0];
-            if (blink == 1 && mPrevBlink != 1) {
-                onInput(intToString((mCurrentChar + 25) % 26));
+            if (blink == 1 && mPrevBlink != 1) { // Filter out counting multiple blinks instead of one
+                if (System.currentTimeMillis() - mLastChangeTime < 200) {
+                    onInput(intToString((mCurrentChar + 25) % 26));
+                } else {
+                    onInput(intToString(mCurrentChar));
+                }
             }
             mPrevBlink = blink;
         }
-
     };
 
     private TextView mTextView;
     private int mCurrentChar = 0;
     private Timer mTimer;
+    private long mLastChangeTime;
 
     @Override
     public void onCreate() {
@@ -52,6 +55,7 @@ public class CustomInputMethod extends InputMethodService {
         super.onWindowShown();
         mCurrentChar = 0;
         updateTextView(intToString(mCurrentChar));
+        mLastChangeTime = System.currentTimeMillis();
         final int timerDelay = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("cycle_delay", "1000"));
         mReceiver = new MuseIOReceiver(PORT, UDP);
         mReceiver.registerMuseDataListener(mDataListener);
@@ -70,6 +74,7 @@ public class CustomInputMethod extends InputMethodService {
                             }
                         });
                     }
+                    mLastChangeTime = System.currentTimeMillis();
                 }
             }, timerDelay, timerDelay);
             Log.d("MUSE_TAG", "asd");
