@@ -40,7 +40,7 @@ void *kContextActivePanel = &kContextActivePanel;
     self.menubarController.statusItemView.action = @selector(togglePanel:);
     
 #warning This file path is hard coded
-    int fildes = open("/path/to/config.plist", O_RDONLY);
+    int fildes = open("/Users/kevin/Documents/wearables-hack/museTyping/jordanCode/test", O_RDONLY);
     
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_VNODE,fildes,
@@ -55,10 +55,11 @@ void *kContextActivePanel = &kContextActivePanel;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/usr/bin/automator";
 #warning This file path is hard coded
-            task.arguments = @[[NSString stringWithFormat:@"/Users/aldrinbalisi/Copy/Projects/museTyping/OS X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)self.letter]];
+            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (unsigned long)(self.letter - 2) % 26]];
             task.standardOutput = pipe;
             
             [task launch];
+            NSLog(@"%lu, ",(unsigned long)self.letter);
         }
     });
     dispatch_source_set_cancel_handler(source, ^
@@ -66,9 +67,6 @@ void *kContextActivePanel = &kContextActivePanel;
         //Handle the cancel
     });
     dispatch_resume(source);
-    
-    // sometime later
-    dispatch_source_cancel(source);
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
