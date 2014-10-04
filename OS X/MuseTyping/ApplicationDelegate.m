@@ -28,6 +28,17 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
+    NSPipe *pipe = [NSPipe pipe];
+    
+    NSTask *task = [[NSTask alloc] init];
+    task.launchPath = @"/usr/bin/python";
+#warning This file path is hard coded
+    task.arguments = @[@"/Users/kevin/Documents/wearables-hack/museTyping/jordanCode/demo.py", @"5000"];
+    task.standardOutput = pipe;
+    
+    [task launch];
+
+    
     // Install icon into the menu bar
     self.menubarController = [[MenubarController alloc] init];
     self.typing = NO;
@@ -51,7 +62,6 @@ void *kContextActivePanel = &kContextActivePanel;
     dispatch_source_set_event_handler(source, ^
     {
         if (_typing) {
-            int pid = [[NSProcessInfo processInfo] processIdentifier];
             NSPipe *pipe = [NSPipe pipe];
             
             NSTask *task = [[NSTask alloc] init];
