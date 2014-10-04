@@ -29,14 +29,6 @@ void *kContextActivePanel = &kContextActivePanel;
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
     NSPipe *pipe = [NSPipe pipe];
-    
-    NSTask *task = [[NSTask alloc] init];
-    task.launchPath = @"/usr/bin/python";
-#warning This file path is hard coded
-    task.arguments = @[@"/Users/kevin/Documents/wearables-hack/museTyping/jordanCode/demo.py", @"5000"];
-    task.standardOutput = pipe;
-    
-    [task launch];
 
     
     // Install icon into the menu bar
@@ -67,7 +59,7 @@ void *kContextActivePanel = &kContextActivePanel;
             NSTask *task = [[NSTask alloc] init];
             task.launchPath = @"/usr/bin/automator";
 #warning This file path is hard coded
-            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (signed long)(self.letter - 2) % 28]];
+            task.arguments = @[[NSString stringWithFormat:@"/Users/kevin/Documents/wearables-hack/museTyping/OS\ X/MuseTyping/Alphabet/%lu.workflow", (signed long)(self.letter + 26) % 28]];
             task.standardOutput = pipe;
             
             [task launch];
@@ -112,7 +104,7 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)loopAlphabet {
     self.menubarController.statusItemView.alternateImage = [NSImage imageNamed:[NSString stringWithFormat:@"%lu", (unsigned long)self.letter]];
-    self.letter = (self.letter + 1) % 26;
+    self.letter = (self.letter + 1) % 28;
 }
 
 #pragma mark - PanelControllerDelegate
